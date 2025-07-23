@@ -31,8 +31,12 @@ class Habit(models.Model):
         else:
             if self.reward and self.linked_habit:
                 raise ValidationError("Укажите либо награду, либо связанную привычку, но не оба поля.")
-            if self.linked_habit and not self.linked_habit.is_pleasant:
-                raise ValidationError("Связанной может быть только приятная привычка.")
+            if self.linked_habit and self.linked_habit.user != self.user:
+                raise ValidationError("Нельзя ссылаться на чужую привычку.")
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.action} в {self.place} ({self.time})"

@@ -23,6 +23,7 @@ requests = "^2.32.3"
 pytest-cov = "^6.0.0"
 pytest = "^8.3.4"
 flake8 = "^7.3.0"
+coverage = "^7.9.2"
 
 
 [tool.poetry.group.lint.dependencies]
