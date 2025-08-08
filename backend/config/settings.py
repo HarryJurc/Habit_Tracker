@@ -98,8 +98,8 @@ DATABASES = {
         "NAME": clean_env_var(os.getenv("NAME")),
         "USER": clean_env_var(os.getenv("USER")),
         "PASSWORD": clean_env_var(os.getenv("PASSWORD")),
-        "HOST": clean_env_var(os.getenv("HOST")),
-        "PORT": clean_env_var(os.getenv("PORT")),
+        "HOST": "db",
+        "PORT": "5432",
     }
 }
 
@@ -168,3 +168,7 @@ CELERY_BEAT_SCHEDULE = {
         "schedule": crontab(hour=8, minute=0),
     },
 }
+
+REDIS_URL = os.getenv('REDIS_URL')
+STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
+TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')

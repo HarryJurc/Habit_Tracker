@@ -68,3 +68,56 @@ python manage.py test habits
 ```bash
 flake8
 ```
+
+---
+
+## Как запустить проект через Docker Compose
+
+1. Склонируйте репозиторий:
+   ```bash
+   git clone https://github.com/HarryJurc/Habit_Tracker.git
+   cd Habit_Tracker
+   ```
+
+2. Создайте файл .env на основе .env.example и заполните переменные окружения:
+   ```bash
+   cp .env.example .env
+   ```
+
+3. Соберите и запустите контейнеры:
+   ```bash
+   docker-compose up --build
+   ```
+
+4. Открыть проект в браузере:
+   - Backend API: http://localhost:8000/
+
+## Как проверить работу сервисов
+
+- **Backend**: откройте `http://localhost:8000/`, должны работать эндпоинты API.
+- **PostgreSQL**: подключитесь к базе через pgAdmin или DBeaver (host: `localhost`, port: `5432`, логин и пароль из `.env`).
+- **Redis**: проверьте подключение с помощью `redis-cli` или в логах контейнера.
+- **Celery**: логи можно увидеть через:
+  ```bash
+  docker-compose logs -f celery
+  ```
+- **Celery Beat**: запустится планировщик периодических задач, можно смотреть через:
+  ```bash
+  docker-compose logs -f celery-beat
+  ```
+
+## Полезные команды
+- Остановить проект:
+  ```bash
+  docker-compose down
+  ```
+
+- Выполнить миграции вручную:
+  ```bash
+  docker-compose exec backend python manage.py migrate
+  ```
+
+- попасть внутрь контейнера:
+  ```bash
+  docker-compose exec backend bash
+  ```
