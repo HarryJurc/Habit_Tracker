@@ -16,7 +16,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 from celery.schedules import crontab
 
-load_dotenv()
+load_dotenv(encoding='utf-8')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -31,7 +31,7 @@ SECRET_KEY = "django-insecure-zdi)0c71z#tqlyenk+sk=@cfk@fjuexe793e^r+#pc+(+pm&30
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -94,12 +94,12 @@ def clean_env_var(var):
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": clean_env_var(os.getenv("NAME")),
-        "USER": clean_env_var(os.getenv("USER")),
-        "PASSWORD": clean_env_var(os.getenv("PASSWORD")),
-        "HOST": "db",
-        "PORT": "5432",
+        "ENGINE": 'django.db.backends.postgresql',
+        "NAME": 'Habit_Tracker',
+        "USER": 'postgres',
+        "PASSWORD": '12345',
+        'HOST': '127.0.0.1',
+        "PORT": '5432',
     }
 }
 
@@ -157,7 +157,7 @@ AUTH_USER_MODEL = "users.CustomUser"
 
 MIDDLEWARE = ["corsheaders.middleware.CorsMiddleware"] + MIDDLEWARE
 
-CELERY_BROKER_URL = os.getenv("REDIS_URL").strip()
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
 CELERY_ACCEPT_CONTENT = ["json"]
 CELERY_TASK_SERIALIZER = "json"
 CELERY_TIMEZONE = "Europe/Moscow"
