@@ -91,17 +91,24 @@ def clean_env_var(var):
         return ""
     return var.strip().replace("\ufeff", "")
 
-
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": clean_env_var(os.getenv("NAME")) or "test_db",
-        "USER": clean_env_var(os.getenv("USER")) or "postgres",
-        "PASSWORD": clean_env_var(os.getenv("PASSWORD")) or "12345",
-        "HOST": "localhost",
-        "PORT": "5432",
+if 'test' in sys.argv:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": ":memory:",
+        }
     }
-}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": clean_env_var(os.getenv("NAME")) or "test_db",
+            "USER": clean_env_var(os.getenv("USER")) or "postgres",
+            "PASSWORD": clean_env_var(os.getenv("PASSWORD")) or "12345",
+            "HOST": "localhost",
+            "PORT": "5432",
+        }
+    }
 
 
 # Password validation
