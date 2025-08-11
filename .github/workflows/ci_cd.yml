@@ -44,7 +44,7 @@ jobs:
 
       - name: Rsync project to server
         run: |
-          rsync -avz --exclude '__pycache__' --exclude '.git' -e "ssh -p ${{ secrets.REMOTE_PORT }} -o StrictHostKeyChecking=no" ./ ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:${{ secrets.DEPLOY_DIR }}
+          rsync -avz --no-group --exclude '__pycache__' --exclude '.git' -e "ssh -p ${{ secrets.REMOTE_PORT }} -o StrictHostKeyChecking=no" ./ ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:${{ secrets.DEPLOY_DIR }}
 
       - name: Install dependencies on server
         run: |
