@@ -3,10 +3,6 @@ name: CI/CD Pipeline
 on:
   workflow_dispatch:
 
-defaults:
-  run:
-    working-directory: backend
-
 jobs:
   test:
     name: Run Tests
@@ -28,6 +24,7 @@ jobs:
 
       - name: Run tests
         run: python manage.py test
+        working-directory: backend
 
   deploy:
     name: Deploy to Production
@@ -50,7 +47,7 @@ jobs:
       - name: Install dependencies on server
         run: |
           ssh -p ${{ secrets.REMOTE_PORT }} -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} << 'EOF'
-            cd ${{ secrets.DEPLOY_DIR }}/backend
+            cd ${{ secrets.DEPLOY_DIR }}
             python3 -m venv venv
             source venv/bin/activate
             pip install -r requirements.txt
