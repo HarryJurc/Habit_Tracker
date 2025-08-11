@@ -98,7 +98,7 @@ DATABASES = {
         "NAME": clean_env_var(os.getenv("NAME")),
         "USER": clean_env_var(os.getenv("USER")),
         "PASSWORD": clean_env_var(os.getenv("PASSWORD")),
-        "HOST": "db",
+        "HOST": "localhost",
         "PORT": "5432",
     }
 }
