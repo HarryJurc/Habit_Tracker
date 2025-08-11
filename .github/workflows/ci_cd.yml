@@ -3,6 +3,10 @@ name: CI/CD Pipeline
 on:
   workflow_dispatch:
 
+defaults:
+  run:
+    working-directory: backend
+
 jobs:
   test:
     name: Run Tests
@@ -23,8 +27,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run tests
-        run: |
-          python manage.py test
+        run: python manage.py test
 
   deploy:
     name: Deploy to Production
@@ -47,7 +50,7 @@ jobs:
       - name: Install dependencies on server
         run: |
           ssh -p ${{ secrets.REMOTE_PORT }} -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} << 'EOF'
-            cd ${{ secrets.DEPLOY_DIR }}
+            cd ${{ secrets.DEPLOY_DIR }}/backend
             python3 -m venv venv
             source venv/bin/activate
             pip install -r requirements.txt
@@ -56,7 +59,7 @@ jobs:
       - name: Apply migrations
         run: |
           ssh -p ${{ secrets.REMOTE_PORT }} -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} << 'EOF'
-            cd ${{ secrets.DEPLOY_DIR }}
+            cd ${{ secrets.DEPLOY_DIR }}/backend
             source venv/bin/activate
             python manage.py migrate
           EOF
@@ -64,7 +67,7 @@ jobs:
       - name: Collect static files
         run: |
           ssh -p ${{ secrets.REMOTE_PORT }} -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} << 'EOF'
-            cd ${{ secrets.DEPLOY_DIR }}
+            cd ${{ secrets.DEPLOY_DIR }}/backend
             source venv/bin/activate
             python manage.py collectstatic --noinput
           EOF
@@ -74,3 +77,4 @@ jobs:
           ssh -p ${{ secrets.REMOTE_PORT }} -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} << 'EOF'
             sudo systemctl restart myapp.service
           EOF
+
