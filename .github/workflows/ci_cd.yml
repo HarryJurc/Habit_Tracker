@@ -60,7 +60,7 @@ jobs:
           ssh -p ${{ secrets.REMOTE_PORT }} -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} << 'EOF'
             cd ${{ secrets.DEPLOY_DIR }}/backend
             source venv/bin/activate
-            python manage.py migrate
+            python3 manage.py migrate
           EOF
 
       - name: Collect static files
@@ -68,7 +68,7 @@ jobs:
           ssh -p ${{ secrets.REMOTE_PORT }} -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} << 'EOF'
             cd ${{ secrets.DEPLOY_DIR }}/backend
             source venv/bin/activate
-            python manage.py collectstatic --noinput
+            python3 manage.py collectstatic --noinput
           EOF
 
       - name: Restart application
