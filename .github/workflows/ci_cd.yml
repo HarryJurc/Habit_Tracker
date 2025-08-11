@@ -77,6 +77,7 @@ jobs:
       - name: Restart application
         run: |
           ssh -p ${{ secrets.REMOTE_PORT }} -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} << 'EOF'
-            sudo systemctl restart myapp.service
+            cd ${{ secrets.DEPLOY_DIR }}
+            docker compose down
+            docker compose up -d --build
           EOF
-
