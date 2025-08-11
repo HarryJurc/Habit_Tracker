@@ -95,9 +95,9 @@ def clean_env_var(var):
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": clean_env_var(os.getenv("NAME")),
-        "USER": clean_env_var(os.getenv("USER")),
-        "PASSWORD": clean_env_var(os.getenv("PASSWORD")),
+        "NAME": clean_env_var(os.getenv("NAME"), "test_db"),
+        "USER": clean_env_var(os.getenv("USER"), "postgres"),
+        "PASSWORD": clean_env_var(os.getenv("PASSWORD"), "12345"),
         "HOST": "localhost",
         "PORT": "5432",
     }
