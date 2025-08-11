@@ -25,6 +25,8 @@ jobs:
       - name: Run tests
         run: python manage.py test
         working-directory: backend
+        env:
+          REDIS_URL: redis://localhost:6379/0
 
   deploy:
     name: Deploy to Production
