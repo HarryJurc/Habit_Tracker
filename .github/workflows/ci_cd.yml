@@ -28,7 +28,7 @@ jobs:
         run: flake8
 
       - name: Run tests
-        run: pytest
+        run: python -m unittest backend
 
   docker-build:
     runs-on: ubuntu-latest
