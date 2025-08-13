@@ -29,7 +29,9 @@ jobs:
 
       - name: Run tests
         run: |
+          set -o allexport
           source .env.example
+          set +o allexport
           export DJANGO_SETTINGS_MODULE=backend.config.settings
           python -m unittest discover -s backend -p "tests.py"
 
