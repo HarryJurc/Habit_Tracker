@@ -1,4 +1,4 @@
-﻿amqp==5.3.1
+amqp==5.3.1
 asgiref==3.8.1
 asn1crypto==1.5.1
 billiard==4.2.1
@@ -80,4 +80,3 @@ virtualenv==20.27.1
 wcwidth==0.2.13
 wheel==0.45.1
 python-telegram-bot==13.15
-
