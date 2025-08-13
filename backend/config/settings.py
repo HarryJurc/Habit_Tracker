@@ -16,7 +16,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 from celery.schedules import crontab
 
-load_dotenv(encoding='utf-8')
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -33,7 +33,7 @@ SECRET_KEY = "django-insecure-zdi)0c71z#tqlyenk+sk=@cfk@fjuexe793e^r+#pc+(+pm&30
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -93,7 +93,6 @@ def clean_env_var(var):
         return ""
     return var.strip().replace("\ufeff", "")
 
-
 if 'test' in sys.argv:
     DATABASES = {
         "default": {
@@ -112,6 +111,7 @@ else:
             "PORT": "5432",
         }
     }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
