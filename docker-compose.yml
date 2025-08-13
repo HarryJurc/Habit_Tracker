@@ -19,7 +19,7 @@ services:
     ports:
       - "6379:6379"
 
-  backend:
+  web:
     build:
       context: .
       dockerfile: backend/Dockerfile
@@ -29,8 +29,7 @@ services:
              gunicorn config.wsgi:application --bind 0.0.0.0:8000"
     volumes:
       - ./backend:/app
-    ports:
-      - "8000:8000"
+      - static_data:/app/staticfiles
     env_file:
       - .env
     depends_on:
@@ -39,16 +38,17 @@ services:
 
   celery:
     build:
-      context: ./backend
+      context: .
+      dockerfile: backend/Dockerfile
     command: celery -A config worker --loglevel=info
     volumes:
       - ./backend:/app
     env_file:
       - .env
     depends_on:
-      - backend
-      - redis
       - db
+      - redis
+      - web
 
   celery-beat:
     build:
@@ -60,9 +60,20 @@ services:
     env_file:
       - .env
     depends_on:
-      - backend
-      - redis
       - db
+      - redis
+      - web
+
+  nginx:
+    build:
+      context: ./nginx
+    ports:
+      - "80:80"
+    volumes:
+      - static_data:/app/staticfiles
+    depends_on:
+      - web
 
 volumes:
   postgres_data:
+  static_data:
