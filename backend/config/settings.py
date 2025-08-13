@@ -10,16 +10,18 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
-import os
+import os, sys
 from pathlib import Path
 
 from dotenv import load_dotenv
 from celery.schedules import crontab
 
-load_dotenv()
+load_dotenv(encoding='utf-8')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 
 # Quick-start development settings - unsuitable for production
@@ -31,7 +33,7 @@ SECRET_KEY = "django-insecure-zdi)0c71z#tqlyenk+sk=@cfk@fjuexe793e^r+#pc+(+pm&30
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -92,16 +94,24 @@ def clean_env_var(var):
     return var.strip().replace("\ufeff", "")
 
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": clean_env_var(os.getenv("NAME")),
-        "USER": clean_env_var(os.getenv("USER")),
-        "PASSWORD": clean_env_var(os.getenv("PASSWORD")),
-        "HOST": "db",
-        "PORT": "5432",
+if 'test' in sys.argv:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": ":memory:",
+        }
     }
-}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": clean_env_var(os.getenv("NAME")) or "test_db",
+            "USER": clean_env_var(os.getenv("USER")) or "postgres",
+            "PASSWORD": clean_env_var(os.getenv("PASSWORD")) or "12345",
+            "HOST": "localhost",
+            "PORT": "5432",
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators

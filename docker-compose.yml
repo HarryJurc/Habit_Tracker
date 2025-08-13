@@ -1,4 +1,4 @@
-version: "3.9"
+version: "3.10"
 
 services:
   db:
@@ -11,7 +11,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
-      - "${PORT}:5432"
+      - "5433:5432"
 
   redis:
     image: redis:7
@@ -21,7 +21,8 @@ services:
 
   backend:
     build:
-      context: ./backend
+      context: .
+      dockerfile: backend/Dockerfile
     command: >
       sh -c "python manage.py migrate &&
              python manage.py collectstatic --noinput &&
@@ -51,7 +52,8 @@ services:
 
   celery-beat:
     build:
-      context: ./backend
+      context: .
+      dockerfile: backend/Dockerfile
     command: celery -A config beat --loglevel=info
     volumes:
       - ./backend:/app
