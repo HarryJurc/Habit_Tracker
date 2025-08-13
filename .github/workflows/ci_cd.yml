@@ -31,8 +31,7 @@ jobs:
         run: |
           export $(grep -v '^#' .env.example | xargs)
           export DJANGO_SETTINGS_MODULE=backend.config.settings
-          cd backend
-          python manage.py test habits
+          python backend/manage.py test habits
 
 
   docker-build:
