@@ -4,6 +4,8 @@ services:
   db:
     image: postgres:15
     restart: always
+    ports:
+     - "5433:5432"
     environment:
       POSTGRES_DB: ${NAME}
       POSTGRES_USER: ${USER}
