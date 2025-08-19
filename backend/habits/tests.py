@@ -1,4 +1,3 @@
-import pytest
 import datetime
 from django.test import TestCase
 from django.urls import reverse
@@ -7,9 +6,9 @@ from rest_framework.test import APIClient
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.core.exceptions import ValidationError
 from habits.models import Habit
-from habits.serializers import HabitSerializer
 
 User = get_user_model()
+
 
 class HabitTestCase(TestCase):
     def setUp(self):
@@ -42,7 +41,6 @@ class HabitTestCase(TestCase):
             execution_time=60,
             is_public=True,
         )
-
 
     def test_create_habit(self):
         url = reverse("habits-list")
@@ -113,7 +111,6 @@ class HabitTestCase(TestCase):
         self.assertIn("results", response.data)
         self.assertEqual(len(response.data["results"]), 5)  # Страница по 5 элементов
         self.assertEqual(response.data["count"], 8)
-
 
     def test_execution_time_too_long_raises(self):
         habit = Habit(
@@ -257,7 +254,6 @@ class HabitTestCase(TestCase):
             reward=None,
             linked_habit=None,
         )
-        # Должен пройти валидацию без ошибок
         habit.full_clean()
 
     def test_pleasant_habit_without_reward_and_linked(self):
